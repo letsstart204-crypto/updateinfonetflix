@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Netflix</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="landing">
+  <header class="topbar">
+    <div class="logo-placeholder">
+      <!-- EDIT BRAND NAME HERE when you are ready (text between tags) -->
+      <span id="brand-name">Netflix</span>
+    </div>
+    <div class="top-actions">
+      <button class="signin-top" onclick="location.href='{{ url_for('signin') }}'">Sign In</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1 class="hero-title">Unlimited movies, TV shows, and more</h1>
+      <p class="hero-sub">Starts at $4.40. Cancel anytime.</p>
+      <p class="hero-sub2">Ready to watch? Enter your email to create or restart your membership.</p>
+
+      <form class="hero-form" action="{{ url_for('signin') }}" method="get">
+        <input type="email" name="email" placeholder="Email address" required>
+        <button type="submit" class="cta">Get Started</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="trending">
+    <h2>Trending Now</h2>
+    <div class="cards">
+      <div class="card">Movie 1</div>
+      <div class="card">Movie 2</div>
+      <div class="card">Movie 3</div>
+      <div class="card">Movie 4</div>
+    </div>
+  </section>
+</body>
+</html>

